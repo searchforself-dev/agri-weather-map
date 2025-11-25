@@ -85,12 +85,6 @@ class AgriWeatherMap {
             'agri_weather_map_main'
         );
         
-        add_settings_field(
-            'api_key',
-            'OpenWeatherMap API Key',
-            array($this, 'render_api_key_field'),
-            'agri-weather-map',
-            'agri_weather_map_main'
         );
     }
     
@@ -112,10 +106,6 @@ class AgriWeatherMap {
         }
         
         $sanitized['farmer_friendly'] = isset($input['farmer_friendly']) ? 1 : 0;
-        
-        if (isset($input['api_key'])) {
-            $sanitized['api_key'] = sanitize_text_field($input['api_key']);
-        }
         
         return $sanitized;
     }
@@ -142,12 +132,6 @@ class AgriWeatherMap {
         $options = $this->get_options();
         echo '<input type="checkbox" name="agri_weather_map_options[farmer_friendly]" value="1" ' . checked($options['farmer_friendly'], 1, false) . ' />';
         echo '<p class="description">Enable larger icons and helpful weather tips for farmers</p>';
-    }
-    
-    public function render_api_key_field() {
-        $options = $this->get_options();
-        echo '<input type="text" name="agri_weather_map_options[api_key]" value="' . esc_attr($options['api_key']) . '" class="regular-text" />';
-        echo '<p class="description">Get your free API key from <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a>. Free tier: 1,000 calls/day.</p>';
     }
     
     public function render_admin_page() {
@@ -208,8 +192,7 @@ class AgriWeatherMap {
             'defaultZoom' => $options['default_zoom'],
             'defaultLat' => $options['default_lat'],
             'defaultLng' => $options['default_lng'],
-            'farmerFriendly' => $options['farmer_friendly'],
-            'apiKey' => $options['api_key']
+            'farmerFriendly' => $options['farmer_friendly']
         ));
     }
     
@@ -218,8 +201,7 @@ class AgriWeatherMap {
             'default_zoom' => 6,
             'default_lat' => 39.8283,
             'default_lng' => -98.5795,
-            'farmer_friendly' => 0,
-            'api_key' => ''
+            'farmer_friendly' => 0
         );
         
         $options = get_option('agri_weather_map_options', array());

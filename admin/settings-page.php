@@ -15,18 +15,6 @@ if (!defined('ABSPATH')) {
         ?>
     </form>
     
-    <div class="agri-weather-map-info" style="margin-top: 30px; padding: 20px; background: #fff3e0; border-left: 4px solid #ff9800;">
-        <h2>🔑 Important: API Key Required</h2>
-        <p><strong>To display weather overlays, you need a free OpenWeatherMap API key.</strong></p>
-        <ol>
-            <li>Go to <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap API</a></li>
-            <li>Sign up for a free account</li>
-            <li>Generate an API key (free tier: 1,000 calls/day)</li>
-            <li>Paste your API key in the field above</li>
-        </ol>
-        <p><em>Without an API key, the base map will work but weather overlays will not display.</em></p>
-    </div>
-    
     <div class="agri-weather-map-info" style="margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid #2271b1;">
         <h2>How to Use</h2>
         <p>Add the following shortcode to any page or post to display the weather map:</p>
