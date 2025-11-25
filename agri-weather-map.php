@@ -84,8 +84,6 @@ class AgriWeatherMap {
             'agri-weather-map',
             'agri_weather_map_main'
         );
-        
-        );
     }
     
     public function sanitize_settings($input) {
