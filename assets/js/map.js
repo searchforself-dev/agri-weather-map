@@ -3,11 +3,8 @@ function initAgriWeatherMap(mapId) {
         defaultZoom: 6,
         defaultLat: 39.8283,
         defaultLng: -98.5795,
-        farmerFriendly: 0,
-        apiKey: ''
+        farmerFriendly: 0
     };
-
-    const apiKey = settings.apiKey || '';
 
     const map = L.map(mapId, {
         center: [settings.defaultLat, settings.defaultLng],
@@ -20,37 +17,33 @@ function initAgriWeatherMap(mapId) {
         maxZoom: 19
     }).addTo(map);
 
-    if (apiKey && apiKey !== '') {
-        const weatherLayers = {
-            'Temperature': L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-                opacity: 0.6,
-                attribution: 'Weather tiles &copy; OpenWeatherMap'
-            }),
-            'Wind Speed': L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-                opacity: 0.6,
-                attribution: 'Weather tiles &copy; OpenWeatherMap'
-            }),
-            'Precipitation': L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-                opacity: 0.6,
-                attribution: 'Weather tiles &copy; OpenWeatherMap'
-            }),
-            'Clouds': L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-                opacity: 0.6,
-                attribution: 'Weather tiles &copy; OpenWeatherMap'
-            }),
-            'Humidity': L.tileLayer('https://tile.openweathermap.org/map/humidity_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-                opacity: 0.6,
-                attribution: 'Weather tiles &copy; OpenWeatherMap'
-            })
-        };
+    const weatherLayers = {
+        'Temperature': L.tileLayer('https://tile.open-meteo.com/v1/temperature/{z}/{x}/{y}.png', {
+            opacity: 0.6,
+            attribution: 'Weather tiles &copy; Open-Meteo'
+        }),
+        'Wind Speed': L.tileLayer('https://tile.open-meteo.com/v1/wind_speed/{z}/{x}/{y}.png', {
+            opacity: 0.6,
+            attribution: 'Weather tiles &copy; Open-Meteo'
+        }),
+        'Precipitation': L.tileLayer('https://tile.open-meteo.com/v1/precipitation/{z}/{x}/{y}.png', {
+            opacity: 0.6,
+            attribution: 'Weather tiles &copy; Open-Meteo'
+        }),
+        'Clouds': L.tileLayer('https://tile.open-meteo.com/v1/cloud_cover/{z}/{x}/{y}.png', {
+            opacity: 0.6,
+            attribution: 'Weather tiles &copy; Open-Meteo'
+        }),
+        'Humidity': L.tileLayer('https://tile.open-meteo.com/v1/relative_humidity/{z}/{x}/{y}.png', {
+            opacity: 0.6,
+            attribution: 'Weather tiles &copy; Open-Meteo'
+        })
+    };
 
-        L.control.layers(null, weatherLayers, {
-            position: 'topright',
-            collapsed: false
-        }).addTo(map);
-    } else {
-        addNoApiKeyWarning(map);
-    }
+    L.control.layers(null, weatherLayers, {
+        position: 'topright',
+        collapsed: false
+    }).addTo(map);
 
     if (settings.farmerFriendly == 1) {
         addFarmerFriendlyLegend(map);
@@ -102,33 +95,6 @@ function addWeatherLegend(map) {
     legend.addTo(map);
 }
 
-function addNoApiKeyWarning(map) {
-    const warning = L.control({ position: 'topright' });
-
-    warning.onAdd = function() {
-        const div = L.DomUtil.create('div', 'api-key-warning');
-        div.style.background = '#fff3e0';
-        div.style.padding = '15px';
-        div.style.borderRadius = '8px';
-        div.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)';
-        div.style.maxWidth = '300px';
-        div.style.border = '2px solid #ff9800';
-        div.innerHTML = `
-            <h4 style="margin: 0 0 10px 0; color: #ff9800;">⚠️ API Key Required</h4>
-            <p style="margin: 0; font-size: 13px; color: #666;">
-                Weather overlays require an OpenWeatherMap API key.
-                <br><br>
-                <a href="https://openweathermap.org/api" target="_blank" style="color: #2271b1;">Get a free API key</a>
-                <br><br>
-                Then add it in WordPress Settings → Agri Weather Map.
-            </p>
-        `;
-        return div;
-    };
-
-    warning.addTo(map);
-}
-
 function addFarmerFriendlyLegend(map) {
     const legend = L.control({ position: 'bottomleft' });
 
@@ -164,29 +130,3 @@ function addFarmerFriendlyLegend(map) {
     legend.addTo(map);
 }
 
-function addNoApiKeyWarning(map) {
-    const warning = L.control({ position: 'topright' });
-
-    warning.onAdd = function() {
-        const div = L.DomUtil.create('div', 'api-key-warning');
-        div.style.background = '#fff3e0';
-        div.style.padding = '15px';
-        div.style.borderRadius = '8px';
-        div.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)';
-        div.style.maxWidth = '300px';
-        div.style.border = '2px solid #ff9800';
-        div.innerHTML = `
-            <h4 style="margin: 0 0 10px 0; color: #ff9800;">⚠️ API Key Required</h4>
-            <p style="margin: 0; font-size: 13px; color: #666;">
-                Weather overlays require an OpenWeatherMap API key.
-                <br><br>
-                <a href="https://openweathermap.org/api" target="_blank" style="color: #2271b1;">Get a free API key</a>
-                <br><br>
-                Then add it in WordPress Settings → Agri Weather Map.
-            </p>
-        `;
-        return div;
-    };
-
-    warning.addTo(map);
-}
